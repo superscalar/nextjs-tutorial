@@ -1,7 +1,10 @@
 import styles from '@/app/ui/home.module.css';
 
-type ReactChildren = { children: React.ReactNode; };
-export default function Page({children}: ReactChildren) {
+export const metadata: Metadata = {
+  title: 'Customers',
+};
+
+export default function Page({children}: { children: React.ReactNode; }) {
   return (
     <main className="flex min-h-screen flex-col p-6">
       <div className="flex h-20 shrink-0 items-end rounded-lg bg-blue-500 p-4 md:h-52">
