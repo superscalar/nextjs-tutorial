@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import styles from '@/app/ui/home.module.css' // does the filename have to be .module.css? I know rails does some automagical stuff based on filenames
-import {lusitana} from '@/app/ui/fonts.ts'
+import {lusitana} from '@/app/ui/fonts'
 
 export default function Page() {
   return (
