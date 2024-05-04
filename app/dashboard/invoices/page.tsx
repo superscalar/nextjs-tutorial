@@ -24,18 +24,18 @@ export default async function Page({
   
   return (
     <div className="w-full">
-	  {/* why not make this a header? semantics are good */}
+	
       <div className="flex w-full items-center justify-between">
         <h1 className={`${lusitana.className} text-2xl`}>Invoices</h1>
       </div>
 	  
-	  {/* and this isn't a <form> - does this mean react does its own submit-type behaviour? */}
-	  {/* it does, with useRouter's replace */}
+	  
       <div className="mt-4 flex items-center justify-between gap-2 md:mt-8">
         <Search placeholder="Search invoices..." />
 		
         <CreateInvoice />
       </div>
+	  
 	   
 	  <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
         <Table query={query} currentPage={currentPage} />
@@ -44,6 +44,7 @@ export default async function Page({
       <div className="mt-5 flex w-full justify-center">
         <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
+	  
     </div>
   );
 }
