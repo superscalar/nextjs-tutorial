@@ -24,10 +24,13 @@ export default function EditInvoiceForm({
   invoice: InvoiceForm;
   customers: CustomerField[];
 }) {
+	const initialState = { message: null, errors: {} };
 	const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
+	const [state, dispatch] = useFormState(updateInvoiceWithId, initialState);
+	// TODO: add the aria-describedbys and error handling code w/ state
 
   return (
-    <form action={updateInvoiceWithId}> {/* react handles action on its own terms - not an URL */ }
+    <form action={dispatch}> {/* react handles action on its own terms - not an URL */ }
       <div className="rounded-md bg-gray-50 p-4 md:p-6">
         {/* Customer Name */}
         <div className="mb-4">

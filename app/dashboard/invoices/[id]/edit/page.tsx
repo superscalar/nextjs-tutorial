@@ -11,7 +11,7 @@ export default async function Page( {params}: { params: { id: string} }) {
 	]);
 
 	console.log("Invoice --->", invoice);
-	// console.log("Customers --->", customers); // isn't it inefficient to fetch them all? It's needed for the form, though
+	// console.log("Customers --->", customers); // isn't it inefficient to fetch them all? It's needed for the form, though. common solutions are allowing search and pagination in a small customer selector, or sending a query just when the user types
 	
 	
 	// []/undefined is falsey
