@@ -45,7 +45,11 @@ export async function createInvoice(formData: FormData) {
 	const invoiceDate = new Date().toISOString().split("T")[0]; // yields YYYY-MM-DD from a string that originally was YYYY-MM-DDT<hour>
 	
 	// console.log("sql\`" + `INSERT INTO invoices (customer_id, amount, status, date) values (${customerId}, ${amountInCents}, ${status}, ${invoiceDate});` + "\`");
-	await sql`INSERT INTO invoices (customer_id, amount, status, date) values (${customerId}, ${amountInCents}, ${status}, ${invoiceDate});`;
+	try {
+		await sql`INSERT INTO invoices (customer_id, amount, status, date) values (${customerId}, ${amountInCents}, ${status}, ${invoiceDate});`;
+	} catch (error) {
+		return { message: "Database error: Failed to create invoice" /*, error: error */};
+	}
 	
 	revalidatePath("/dashboard/invoices/");
 	redirect("/dashboard/invoices/");
@@ -62,15 +66,29 @@ export async function updateInvoice(id: string, formData: FormData) {
 	const amountInCents = amount * 100;
 	
 	// console.log("await sql\`" + `UPDATE invoices SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status} WHERE id = ${id};` + "\`");
-	await sql`UPDATE invoices
-		SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
-		WHERE id = ${id};`;
+	
+	try {	
+		await sql`UPDATE invoices
+			SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
+			WHERE id = ${id};`;
 
+	} catch (error) {
+		return { message: "Database error: Failed to update invoice" /*, error: error */};		
+	}
+	
 	revalidatePath('/dashboard/invoices');
-	redirect('/dashboard/invoices');
+	redirect('/dashboard/invoices'); // can throw an error too
+	// obviously, can't return because anything after the redirect is unreachable
 }
 
 export async function deleteInvoice(id: string) {
-	await sql`DELETE FROM invoices WHERE id = ${id}`;
-	revalidatePath('/dashboard/invoices');
+	throw new Error("...");
+
+	try {
+		await sql`DELETE FROM invoices WHERE id = ${id}`;
+		revalidatePath('/dashboard/invoices');
+		return { message: "Succesfully deleted invoice" };
+	} catch (error) {
+		return { message: "Database error: Failed to delete invoice" /*, error: error */};
+	}
 }

@@ -1,6 +1,7 @@
 import EditInvoiceForm from '@/app/ui/invoices/edit-form';
 import Breadcrumbs from '@/app/ui/invoices/breadcrumbs';
 import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+import { notFound } from 'next/navigation';
  
 export default async function Page( {params}: { params: { id: string} }) {
 	const editId = params.id;
@@ -9,8 +10,15 @@ export default async function Page( {params}: { params: { id: string} }) {
 		fetchCustomers(),
 	]);
 
-	// console.log("Invoice --->", invoice);
+	console.log("Invoice --->", invoice);
 	// console.log("Customers --->", customers); // isn't it inefficient to fetch them all? It's needed for the form, though
+	
+	
+	// []/undefined is falsey
+	if (invoice == undefined) {
+		console.log(">>> not found <<<");
+		notFound();
+	}
 
 	return (
 		<main>
